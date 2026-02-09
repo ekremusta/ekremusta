@@ -104,23 +104,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Add typing effect to hero title (optional enhancement)
-const heroTitle = document.querySelector('.hero-title');
-if (heroTitle) {
-    const text = heroTitle.innerHTML;
-    heroTitle.innerHTML = '';
-    let i = 0;
-    
-    const typeWriter = () => {
-        if (i < text.length) {
-            heroTitle.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(typeWriter, 50);
-        }
-    };
-    
-    // Start typing effect after a small delay
-    setTimeout(typeWriter, 500);
-}
+// Hero title is now displayed normally without typing effect
+// The typing effect was causing issues with HTML rendering
 
 console.log('Portfolio website loaded successfully!');
