@@ -47,29 +47,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Add active state to nav links based on scroll position
-const sections = document.querySelectorAll('section');
-const navItems = document.querySelectorAll('.nav-link');
-
-window.addEventListener('scroll', () => {
-    let current = '';
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (window.pageYOffset >= sectionTop - 100) {
-            current = section.getAttribute('id');
-        }
-    });
-    
-    navItems.forEach(item => {
-        item.classList.remove('active');
-        if (item.getAttribute('href').substring(1) === current) {
-            item.classList.add('active');
-        }
-    });
-});
-
 // Add animation to elements when they come into view
 const observerOptions = {
     threshold: 0.1,
@@ -92,15 +69,49 @@ animateElements.forEach(el => {
     observer.observe(el);
 });
 
-// Navbar background change on scroll
+// Optimized scroll handler with throttling
+const sections = document.querySelectorAll('section');
+const navItems = document.querySelectorAll('.nav-link');
 const navbar = document.querySelector('.navbar');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
+let ticking = false;
+
+function handleScroll() {
+    const scrollY = window.pageYOffset;
+    
+    // Update navbar background
+    if (scrollY > 50) {
         navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
         navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
     } else {
         navbar.style.backgroundColor = '#ffffff';
         navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+    }
+    
+    // Update active nav link
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= sectionTop - 100) {
+            current = section.getAttribute('id');
+        }
+    });
+    
+    navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href').substring(1) === current) {
+            item.classList.add('active');
+        }
+    });
+    
+    ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            handleScroll();
+        });
+        ticking = true;
     }
 });
 
