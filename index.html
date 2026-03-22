@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ekrem Usta</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230f172a'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-size='18' font-weight='700' fill='%232563eb'>e.</text></svg>" />
+  <meta name="description" content="Ekrem Usta'nın kişisel web sitesi. Boğaziçi Üniversitesi öğrencisi. Blog, özgeçmiş ve iletişim bilgileri." />
+  <meta name="keywords" content="Ekrem Usta, Boğaziçi Üniversitesi, kişisel web sitesi, blog, öğrenci" />
+  <meta property="og:title" content="Ekrem Usta" />
+  <meta property="og:description" content="Merhaba! Ben Ekrem. Boğaziçi Üniversitesi İngilizce Öğretmenliği öğrencisiyim." />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Icons via Unicode / emoji for zero deps -->
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav class="navbar" id="navbar">
+  <a class="nav-logo" id="navLogo" href="#" onclick="showPage('home')">ekrem<span id="navLogoDot">.</span></a>
+
+  <div class="nav-links" id="navLinks">
+    <a class="nav-link active" href="#" id="nav-home"    onclick="showPage('home');   return false;" data-i18n="nav.home">Anasayfa</a>
+    <a class="nav-link"        href="#" id="nav-about"   onclick="showPage('about');  return false;" data-i18n="nav.about">Hakkımda</a>
+    <a class="nav-link"        href="#" id="nav-blog"    onclick="showPage('blog');   return false;" data-i18n="nav.blog">Blog</a>
+    <a class="nav-link"        href="#" id="nav-contact" onclick="showPage('contact');return false;" data-i18n="nav.contact">İletişim</a>
+  </div>
+
+  <div class="nav-cta" id="navCta">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-tr" onclick="setLanguage('tr')">TR</button>
+      <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">ENG</button>
+    </div>
+    <a class="btn-nav" data-i18n="nav.cta" href="mailto:hello@ekremusta.me">İletişime Geç →</a>
+  </div>
+
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menü">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a class="nav-link" href="#" onclick="showPage('home');   closeMobile(); return false;" data-i18n="nav.home">Anasayfa</a>
+  <a class="nav-link" href="#" onclick="showPage('about');  closeMobile(); return false;" data-i18n="nav.about">Hakkımda</a>
+  <a class="nav-link" href="#" onclick="showPage('blog');   closeMobile(); return false;" data-i18n="nav.blog">Blog</a>
+  <a class="nav-link" href="#" onclick="showPage('contact');closeMobile(); return false;" data-i18n="nav.contact">İletişim</a>
+</div>
+
+
+<!-- =====================================================================
+     PAGE: HOME
+     ===================================================================== -->
+<div class="page active" id="page-home">
+  <div class="page-content">
+
+    <!-- Hero -->
+    <section class="hero" id="hero-home">
+      <div class="hero-bg-blob hero-bg-blob-1"></div>
+      <div class="hero-bg-blob hero-bg-blob-2"></div>
+      <div class="hero-inner">
+        <div class="hero-text">
+          <div class="hero-greeting animate-fade-up animate-delay-1" data-i18n="hero.greeting">KİMİM BEN?</div>
+          <h1 class="hero-title animate-fade-up animate-delay-2">
+            <span data-i18n="hero.title1">Merhaba, ben</span><br>
+            <span class="hero-title-name">Ekrem.</span>
+          </h1>
+          <p class="hero-subtitle animate-fade-up animate-delay-3" data-i18n="hero.subtitle">
+            Boğaziçi Üniversitesi İngilizce Öğretmenliği öğrencisiyim. Kelimeler, kültürler ve fikirler arasında köprü kurmaktan keyif alıyorum.
+          </p>
+          <div class="hero-buttons animate-fade-up animate-delay-4">
+            <button class="btn btn-primary" onclick="showPage('about')" data-i18n="hero.btn.cv">CV'mi Görüntüle →</button>
+            <button class="btn btn-secondary" onclick="showPage('blog')" data-i18n="hero.btn.blog">Blog Yazılarımı Oku</button>
+          </div>
+        </div>
+        <div class="hero-image-wrap animate-fade-up animate-delay-3">
+          <div class="hero-image-card">
+            <img class="hero-img" src="assets/hero.jpg" alt="Ekrem Usta" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div style="display:none; width:100%; height:440px; background:linear-gradient(135deg,#bfdbfe,#3b82f6); border-radius:28px; align-items:center; justify-content:center; font-size:7rem;">👤</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section" style="background:white;">
+      <div class="container">
+        <div class="section-tag" data-i18n="skills.tag">Neler yapıyorum?</div>
+        <h2 class="section-title" data-i18n="skills.title">İlgi alanlarım &amp; yeteneklerim</h2>
+        <p class="section-subtitle" data-i18n="skills.subtitle">Akademik çalışmalarım, projelerim ve hobilerim doğrultusunda geliştirdiğim beceriler:</p>
+        <br>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-icon">✍️</div>
+            <h3 data-i18n="s1.t">Akademik Yazarlık</h3>
+            <p data-i18n="s1.d">Araştırma makaleleri, analitik yazılar ve iyi yapılandırılmış akademik içerikler üretme.</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">📊</div>
+            <h3 data-i18n="s2.t">Veri ve Analiz</h3>
+            <p data-i18n="s2.d">SPSS ile veri girişi ve analizi, araştırma bulgularını anlamlı içgörülere dönüştürme.</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">🌐</div>
+            <h3 data-i18n="s3.t">Dil Eğitimi</h3>
+            <p data-i18n="s3.d">İngilizce öğretimi planlaması, ders materyali geliştirme ve öğrenci odaklı koçluk.</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">📸</div>
+            <h3 data-i18n="s4.t">Fotoğrafçılık</h3>
+            <p data-i18n="s4.d">Analog ve dijital fotoğrafçılık; anı ve hikayeleri görsel olarak belgeleme.</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">🤝</div>
+            <h3 data-i18n="s5.t">İçerik Stratejisi</h3>
+            <p data-i18n="s5.d">Sosyal medya içeriği oluşturma, topluluk iletişimi ve marka sesi geliştirme.</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">🗺️</div>
+            <h3 data-i18n="s6.t">Kültürlerarası İletişim</h3>
+            <p data-i18n="s6.d">Türkçe, İngilizce ve Almanca ile farklı kültürler arasında köprü kurma.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Blog -->
+    <section class="section" style="background:var(--gray-50);">
+      <div class="container">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;">
+          <div>
+            <div class="section-tag" data-i18n="feat.tag">NE YAZIYORUM?</div>
+            <h2 class="section-title" style="margin-bottom:0;" data-i18n="feat.title">Öne çıkan yazılar</h2>
+          </div>
+          <button class="btn btn-outline" onclick="showPage('blog')" style="align-self:flex-end;" data-i18n="feat.btn">Tüm yazıları gör →</button>
+        </div>
+        <div class="featured-blog-grid" id="featuredBlogGrid">
+          <!-- Cards injected by renderFeaturedBlog() -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="section-sm" style="background:linear-gradient(135deg, var(--navy),#162847);">
+      <div class="container" style="text-align:center;">
+        <h2 style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:white;margin-bottom:0.75rem;" data-i18n="cta.title">Bana ulaşmak mı istiyorsun?</h2>
+        <p style="color:var(--gray-400);margin-bottom:2rem;font-size:1rem;" data-i18n="cta.sub">Yeni işbirlikleri, fırsatlar veya sohbet için:</p>
+        <button class="btn btn-primary" onclick="showPage('contact')" style="padding:0.875rem 2.5rem;font-size:1rem;" data-i18n="cta.btn">İletişime Geç →</button>
+      </div>
+    </section>
+
+  </div><!-- /page-content -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">ekrem<span>.</span></div>
+      <div class="footer-links">
+        <a class="footer-link" href="#" onclick="showPage('home');  return false;" data-i18n="nav.home">Anasayfa</a>
+        <a class="footer-link" href="#" onclick="showPage('about'); return false;" data-i18n="nav.about">Hakkımda</a>
+        <a class="footer-link" href="#" onclick="showPage('blog');  return false;" data-i18n="nav.blog">Blog</a>
+        <a class="footer-link" href="#" onclick="showPage('contact');return false;" data-i18n="nav.contact">İletişim</a>
+      </div>
+      <div class="footer-socials">
+        <a class="footer-social" href="https://linkedin.com/in/ekremusta" target="_blank" title="LinkedIn">in</a>
+        <a class="footer-social" href="https://github.com/ekremusta"     target="_blank" title="GitHub">gh</a>
+        <a class="footer-social" href="mailto:hello@ekremusta.me"         title="E-posta">✉</a>
+      </div>
+      <div class="footer-divider"></div>
+      <p class="footer-copy" data-i18n="foot.copy">© 2026 Ekrem Usta. Tüm Hakları Saklıdır. 🩵 ile Yapıldı.</p>
+    </div>
+  </footer>
+</div>
+
+
+<!-- =====================================================================
+     PAGE: ABOUT / CV
+     ===================================================================== -->
+<div class="page" id="page-about">
+  <div class="page-content">
+
+    <!-- About Hero -->
+    <section class="about-hero">
+      <div class="about-hero-bg"></div>
+      <div class="about-hero-inner">
+        <div>
+          <div class="section-tag" style="background:rgba(96,165,250,0.15);color:var(--blue-300);" data-i18n="ab.tag">Özgeçmiş</div>
+          <h1 class="about-name">Ekrem Usta</h1>
+          <p class="about-role" data-i18n="ab.role">Üniversite Öğrencisi @Boğaziçi Üniversitesi</p>
+          <div class="about-contact-line">
+            <div class="about-contact-item" data-i18n="ab.loc">📍 İstanbul, Türkiye</div>
+            <div class="about-contact-item">✉️ <a href="mailto:hello@ekremusta.me">hello@ekremusta.me</a></div>
+            <div class="about-contact-item">🔗 <a href="https://linkedin.com/in/ekremusta" target="_blank">linkedin.com/in/ekremusta</a></div>
+          </div>
+          <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="showPage('contact')" data-i18n="ab.btn.c">İletişime Geç</button>
+            <a class="btn btn-secondary" id="cvDownloadBtn" href="assets/cv-tr.pdf" target="_blank" data-i18n="ab.btn.cv">CV İndir (PDF)</a>
+          </div>
+        </div>
+        <div class="about-photo-wrap">
+          <img class="about-photo" id="aboutPhoto" src="assets/about.jpg" alt="Ekrem Usta"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+               onmouseenter="randomAboutPhoto(this)"
+               onmouseleave="resetAboutPhoto(this)" />
+          <div class="about-photo-placeholder" id="aboutPhotoFallback" style="display:none;"
+               onmouseenter="randomAboutPhotoEmoji(this)"
+               onmouseleave="resetAboutPhotoEmoji(this)">👤</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CV Content -->
+    <section class="section" style="background:var(--gray-50);">
+      <div class="container">
+        <div class="cv-layout">
+
+          <!-- Main Column -->
+          <div class="cv-main">
+            <!-- Education -->
+            <h2 class="cv-section-title" data-i18n="cv.edu">🎓 Eğitim</h2>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-header">
+                  <div class="timeline-org" data-i18n="e1.org">Boğaziçi Üniversitesi</div>
+                  <div class="timeline-date" data-i18n="e1.date">2021 — Devam ediyor</div>
+                </div>
+                <div class="timeline-role" data-i18n="e1.role">İngilizce Öğretmenliği</div>
+                <div class="timeline-location" data-i18n="e1.loc">📍 İstanbul, Türkiye</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-header">
+                  <div class="timeline-org" data-i18n="e2.org">University of Alberta</div>
+                  <div class="timeline-date" data-i18n="e2.date">2025 Güz</div>
+                </div>
+                <div class="timeline-role" data-i18n="e2.role">Değişim (Exchange) Programı</div>
+                <div class="timeline-location" data-i18n="e2.loc">📍 Edmonton, Kanada</div>
+              </div>
+            </div>
+
+            <!-- Work Experience -->
+            <h2 class="cv-section-title" data-i18n="cv.work">💼 İş Deneyimi</h2>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-header">
+                  <div class="timeline-org" data-i18n="w1.org">SineBU — Boğaziçi Üniversitesi</div>
+                  <div class="timeline-date" data-i18n="w1.date">Temmuz 2024 — Aralık 2024</div>
+                </div>
+                <div class="timeline-role"><span data-i18n="w1.role">Sinema Görevlisi</span> &nbsp;<span class="badge" style="font-size:0.7rem;" data-i18n="badge.vol">Gönüllü</span></div>
+                <ul class="timeline-bullets">
+                  <li data-i18n="w1.b1">Gösterimlerde gişe işlemlerinde görev aldım, bilet kesim, kontrol ve müşteri iletişimini sağladım.</li>
+                  <li data-i18n="w1.b2">Sinema salonun sahneye hazır, film başlatma ve bitirme işlemlerini gerçekleştirdim.</li>
+                  <li data-i18n="w1.b3">Günlük satış raporlarını ve bordroları işleyerek raporlama görevlerini yerine getirdim.</li>
+                </ul>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-header">
+                  <div class="timeline-org" data-i18n="w2.org">Boğaziçi Üniversitesi Yaz Okulu</div>
+                  <div class="timeline-date" data-i18n="w2.date">Temmuz 2023 — Ağustos 2023</div>
+                </div>
+                <div class="timeline-role"><span data-i18n="w2.role">Eğitmen ve Koç</span> &nbsp;<span class="badge" style="font-size:0.7rem;" data-i18n="badge.vol">Gönüllü</span></div>
+                <ul class="timeline-bullets">
+                  <li data-i18n="w2.b1">Yaz okulu programında öğrencilere İngilizce dil eğitimi verdim.</li>
+                  <li data-i18n="w2.b2">Öğrencilerin gelişimi için mentörlük ve koçluk hizmeti sundum.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Projects -->
+            <h2 class="cv-section-title" data-i18n="cv.proj">🚀 Çalışmalar</h2>
+            <div class="projects-grid">
+              <div class="project-card">
+                <h4 data-i18n="p1.t">🐾 BÜ Hayvan Yaşam Alanı</h4>
+                <div style="font-size:0.75rem;color:var(--accent);font-weight:600;margin-bottom:0.5rem;" data-i18n="badge.vol">Gönüllü</div>
+                <ul class="project-bullets">
+                  <li data-i18n="p1.b1">Bakımlarının bir parçası olarak hayvanların belgelenmesine ve fırçalanmasına yardımcı oldum.</li>
+                  <li data-i18n="p1.b2">Diğer gönüllüler ile iş birliği yaparak iletişim ve takım çalışması becerileri geliştirdim.</li>
+                </ul>
+              </div>
+              <div class="project-card">
+                <h4 data-i18n="p2.t">✏️ İngilizce Koçluğu</h4>
+                <div style="font-size:0.75rem;color:var(--accent);font-weight:600;margin-bottom:0.5rem;" data-i18n="badge.vol">Gönüllü</div>
+                <ul class="project-bullets">
+                  <li data-i18n="p2.b1">Deprem sonrası müfredatı takip etmekte zorlanan öğrencilere haftada iki saat Zoom üzerinden birebir İngilizce dil dersi verdim.</li>
+                  <li data-i18n="p2.b2">Üniversitede öğrendiğim öğretim yöntemlerini koçluk programında uygulayarak geliştirdim.</li>
+                </ul>
+              </div>
+            </div>
+          </div><!-- /cv-main -->
+
+          <!-- Sidebar -->
+          <div class="cv-sidebar">
+            <div class="cv-sidebar-card">
+              <h3 data-i18n="sb.lang">Diller</h3>
+              <div class="lang-row">
+                <div class="lang-item" onmouseenter="langHover(this,'Merhaba!')" onmouseleave="langReset(this,'l1.n')">
+                  <div class="lang-name-row">
+                    <span class="lang-name" data-i18n="l1.n">Türkçe</span>
+                    <span class="lang-level" data-i18n="l1.lv">Ana dil</span>
+                  </div>
+                  <div class="lang-bar"><div class="lang-bar-fill" style="width:100%"></div></div>
+                </div>
+                <div class="lang-item" onmouseenter="langHover(this,'Hey there!')" onmouseleave="langReset(this,'l2.n')">
+                  <div class="lang-name-row">
+                    <span class="lang-name" data-i18n="l2.n">İngilizce</span>
+                    <span class="lang-level" data-i18n="l2.lv">İleri Seviye (C2)</span>
+                  </div>
+                  <div class="lang-bar"><div class="lang-bar-fill" style="width:92%"></div></div>
+                </div>
+                <div class="lang-item" onmouseenter="langHover(this,'Hallo!')" onmouseleave="langReset(this,'l3.n')">
+                  <div class="lang-name-row">
+                    <span class="lang-name" data-i18n="l3.n">Almanca</span>
+                    <span class="lang-level" data-i18n="l3.lv">Başlangıç (A1)</span>
+                  </div>
+                  <div class="lang-bar"><div class="lang-bar-fill" style="width:20%"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cv-sidebar-card">
+              <h3 data-i18n="sb.skills">Yetenekler</h3>
+              <div class="skills-tags">
+                <span class="badge" data-i18n="sk1">Akademik Yazı</span>
+                <span class="badge" data-i18n="sk2">Veri ve Analiz (SPSS)</span>
+                <span class="badge" data-i18n="sk3">İçerik Stratejisi</span>
+                <span class="badge" data-i18n="sk4">Dil Eğitimi</span>
+                <span class="badge" data-i18n="sk5">MS Office</span>
+                <span class="badge" data-i18n="sk6">Adobe Creative Suite</span>
+                <span class="badge" data-i18n="sk7">Sunum</span>
+                <span class="badge" data-i18n="sk8">Takım Çalışması</span>
+              </div>
+            </div>
+
+            <div class="cv-sidebar-card">
+              <h3 data-i18n="sb.hobbies">Hobiler</h3>
+              <div class="hobby-list">
+                <div class="hobby-item"><span class="hobby-icon">🌍</span> <span data-i18n="h1">Dil öğrenme</span></div>
+                <div class="hobby-item"><span class="hobby-icon">🤝</span> <span data-i18n="h2">Sorumluluk projeleri</span></div>
+                <div class="hobby-item"><span class="hobby-icon">📷</span> <span data-i18n="h3">Analog ve dijital fotoğrafçılık</span></div>
+                <div class="hobby-item"><span class="hobby-icon">✈️</span> <span data-i18n="h4">Seyahat etmek</span></div>
+                <div class="hobby-item"><span class="hobby-icon">🎬</span> <span data-i18n="h5">Sinema ve film</span></div>
+              </div>
+            </div>
+          </div><!-- /cv-sidebar -->
+
+        </div><!-- /cv-layout -->
+      </div>
+    </section>
+
+  </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">ekrem<span>.</span></div>
+      <div class="footer-links">
+        <a class="footer-link" href="#" onclick="showPage('home');  return false;">Anasayfa</a>
+        <a class="footer-link" href="#" onclick="showPage('about'); return false;">Hakkımda</a>
+        <a class="footer-link" href="#" onclick="showPage('blog');  return false;">Blog</a>
+        <a class="footer-link" href="#" onclick="showPage('contact');return false;">İletişim</a>
+      </div>
+      <div class="footer-socials">
+        <a class="footer-social" href="https://linkedin.com/in/ekremusta" target="_blank">in</a>
+        <a class="footer-social" href="https://github.com/ekremusta"     target="_blank">gh</a>
+        <a class="footer-social" href="mailto:hello@ekremusta.me">✉</a>
+      </div>
+      <div class="footer-divider"></div>
+      <p class="footer-copy">© 2026 Ekrem Usta. Tüm Hakları Saklıdır.</p>
+    </div>
+  </footer>
+</div>
+
+
+<!-- =====================================================================
+     PAGE: BLOG
+     ===================================================================== -->
+<div class="page" id="page-blog">
+  <div class="page-content">
+
+    <section class="blog-hero">
+      <div class="container">
+        <div class="section-tag" data-i18n="bl.tag">NE YAZIYORUM?</div>
+        <h1 class="section-title" style="font-size:clamp(2rem,4vw,3rem);margin-bottom:0.75rem;" data-i18n="bl.title">Blog</h1>
+        <p class="section-subtitle" data-i18n="bl.sub">Dil öğrenimi, seyahat, eğitim ve hayat üzerine düşünceler.</p>
+        <div class="blog-categories" id="blogCategories">
+          <button class="blog-cat-btn active" onclick="filterBlog('all', this)" data-i18n="bl.all">Tümü</button>
+          <button class="blog-cat-btn" onclick="filterBlog('dil', this)" data-i18n="bl.dil">Dil</button>
+          <button class="blog-cat-btn" onclick="filterBlog('seyahat', this)" data-i18n="bl.travel">Seyahat</button>
+          <button class="blog-cat-btn" onclick="filterBlog('egitim', this)" data-i18n="bl.edu">Eğitim</button>
+          <button class="blog-cat-btn" onclick="filterBlog('hayat', this)" data-i18n="bl.life">Hayat</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="blog-grid" id="blogGrid">
+          <!-- Cards injected by JS -->
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">ekrem<span>.</span></div>
+      <div class="footer-links">
+        <a class="footer-link" href="#" onclick="showPage('home');  return false;">Anasayfa</a>
+        <a class="footer-link" href="#" onclick="showPage('about'); return false;">Hakkımda</a>
+        <a class="footer-link" href="#" onclick="showPage('blog');  return false;">Blog</a>
+        <a class="footer-link" href="#" onclick="showPage('contact');return false;">İletişim</a>
+      </div>
+      <div class="footer-socials">
+        <a class="footer-social" href="https://linkedin.com/in/ekremusta" target="_blank">in</a>
+        <a class="footer-social" href="https://github.com/ekremusta"     target="_blank">gh</a>
+        <a class="footer-social" href="mailto:hello@ekremusta.me">✉</a>
+      </div>
+      <div class="footer-divider"></div>
+      <p class="footer-copy">© 2026 Ekrem Usta. Tüm Hakları Saklıdır.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- Blog Modal -->
+<div class="blog-modal-overlay" id="blogModal" onclick="closeBlogModal(event)">
+  <div class="blog-modal" id="blogModalContent">
+    <div class="blog-modal-header">
+      <button class="blog-modal-close" onclick="closeBlogModalDirect()">✕</button>
+      <div class="blog-modal-tag" id="modalTag"></div>
+      <h2 class="blog-modal-title" id="modalTitle"></h2>
+      <div class="blog-modal-meta" id="modalMeta"></div>
+    </div>
+    <div class="blog-modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+
+<!-- =====================================================================
+     PAGE: CONTACT
+     ===================================================================== -->
+<div class="page" id="page-contact">
+  <div class="page-content">
+
+    <section class="contact-hero">
+      <div class="contact-hero-bg"></div>
+      <div class="container contact-hero-inner">
+        <div class="section-tag" style="background:rgba(96,165,250,0.15);color:var(--blue-300);margin:0 auto 1rem;" data-i18n="ct.tag">İletişim</div>
+        <h1 class="contact-hero-title" data-i18n-html="ct.title">Merak ettim,<br>ne oldu?</h1>
+        <p class="contact-hero-sub" data-i18n="ct.sub">Yeni bir proje, iş birliği veya sadece kahve eşliğinde sohbet etmek için bana ulaşabilirsiniz.</p>
+      </div>
+    </section>
+
+    <section class="section" style="background:var(--gray-50);">
+      <div class="container">
+        <div class="contact-grid contact-grid-single">
+
+          <!-- Info Card (genişletilmiş) -->
+          <div class="contact-info-card contact-info-wide">
+            <h3 data-i18n="ct.info">İletişim Bilgileri</h3>
+            <div class="contact-item">
+              <div class="contact-icon">✉️</div>
+              <div>
+                <div class="contact-label" data-i18n="ct.email.l">E-Posta</div>
+                <div class="contact-value"><a href="mailto:hello@ekremusta.me">hello@ekremusta.me</a></div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div>
+                <div class="contact-label" data-i18n="ct.loc.l">Konum</div>
+                <div class="contact-value" data-i18n="ct.loc.v">İstanbul, Türkiye</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">⏱️</div>
+              <div>
+                <div class="contact-label" data-i18n="ct.res.l">Yanıt Süresi</div>
+                <div class="contact-value" data-i18n="ct.res.v">Genellikle 24 saat içinde</div>
+              </div>
+            </div>
+            <div class="contact-socials">
+              <a class="contact-social-btn" href="https://linkedin.com/in/ekremusta" target="_blank">
+                <span>in</span> <span data-i18n="ct.li">LinkedIn</span>
+              </a>
+              <a class="contact-social-btn" href="https://github.com/ekremusta" target="_blank">
+                <span>⌨</span> <span data-i18n="ct.gh">GitHub</span>
+              </a>
+              <a class="contact-social-btn" href="mailto:hello@ekremusta.me">
+                <span>✉️</span> <span data-i18n="ct.mail">E-Posta</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">ekrem<span>.</span></div>
+      <div class="footer-links">
+        <a class="footer-link" href="#" onclick="showPage('home');  return false;">Anasayfa</a>
+        <a class="footer-link" href="#" onclick="showPage('about'); return false;">Hakkımda</a>
+        <a class="footer-link" href="#" onclick="showPage('blog');  return false;">Blog</a>
+        <a class="footer-link" href="#" onclick="showPage('contact');return false;">İletişim</a>
+      </div>
+      <div class="footer-socials">
+        <a class="footer-social" href="https://linkedin.com/in/ekremusta" target="_blank">in</a>
+        <a class="footer-social" href="https://github.com/ekremusta"     target="_blank">gh</a>
+        <a class="footer-social" href="mailto:hello@ekremusta.me">✉</a>
+      </div>
+      <div class="footer-divider"></div>
+      <p class="footer-copy">© 2026 Ekrem Usta. Tüm Hakları Saklıdır.</p>
+    </div>
+  </footer>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
