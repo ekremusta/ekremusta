@@ -159,11 +159,13 @@ body.no-select, body.no-select * { user-select: none !important; -webkit-user-se
 }
 .hero-marquee {
   position: absolute; top: 30%; left: 0; width: 100%;
+  transform: translateY(-12%);
   overflow: hidden; pointer-events: none; user-select: none; -webkit-user-select: none;
 }
 .marquee-track {
   display: inline-block; white-space: nowrap;
-  font-family: var(--f-marker); font-size: clamp(90px, 16vw, 230px); line-height: 1;
+  font-family: var(--f-marker); font-size: clamp(90px, 16vw, 230px); line-height: 1.45; /* room for descenders (g, j, y, ç) and accents */
+  padding-block: .08em;
   color: rgba(156, 201, 232, .55);
   animation: marquee 60s linear infinite;
   padding-left: 100%;
