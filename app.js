@@ -118,11 +118,13 @@ const EN = {
   'notes.tag': 'what do I write?', 'notes.title': 'Notes from my notebook', 'notes.sub': 'on language, travel, education and life',
   'ct.title': 'Drop me a line', 'ct.sub': 'For a new idea, a collaboration, or just a chat over coffee.',
   'ct.reply': 'usually reply within 24 hours', 'ct.to': 'to: Ekrem',
-  'foot': '© 2026 Ekrem Usta · made with 🩵',
+  'foot.pre': '© 2026 Ekrem Usta · made with ', 'foot.post': '',
 };
 const UI = {
-  tr: { read: 'oku →', close: 'Kapat', prev: 'Önceki', next: 'Sonraki', photo: 'Fotoğraf', cv: 'assets/cv-tr.pdf' },
-  en: { read: 'read →', close: 'Close', prev: 'Previous', next: 'Next', photo: 'Photo', cv: 'assets/cv-en.pdf' },
+  tr: { read: 'oku →', close: 'Kapat', prev: 'Önceki', next: 'Sonraki', photo: 'Fotoğraf', cv: 'assets/cv-tr.pdf',
+        shakeMouse: 'fareyle salla, ortaya çıksın!', shakePhone: 'telefonu salla, ortaya çıksın!' },
+  en: { read: 'read →', close: 'Close', prev: 'Previous', next: 'Next', photo: 'Photo', cv: 'assets/cv-en.pdf',
+        shakeMouse: 'shake it with your mouse to develop!', shakePhone: 'shake your phone to develop!' },
 };
 
 const $ = (s, el = document) => el.querySelector(s);
@@ -203,19 +205,76 @@ function updateGalleryText() {
   });
 }
 
-/* ---------- LIGHTBOX ---------- */
+/* ---------- LIGHTBOX: shake it like a polaroid ----------
+   A print opens blank. Shaking it (mouse, finger, or the phone itself) develops it.
+   Prints you've already developed stay developed until the page is reloaded. */
 let lbIndex = 0, lbReturn = null;
+const developed = new Set();
+const coarse = window.matchMedia('(pointer: coarse)').matches;
+const shake = { dev: 0, target: 0, sx: 0, sy: 0, sr: 0, raf: 0, lastT: 0, lastX: null, lastY: null, lastDir: 0 };
+let motionAsked = false;
+
+function lbOpen() { return !$('#lightbox').hidden; }
+function addShake(amount, dx = 0, dy = 0) {
+  if (developed.has(lbIndex)) return;
+  shake.target = Math.min(1, shake.target + amount);
+  shake.sx = Math.max(-22, Math.min(22, shake.sx + dx * 0.3));
+  shake.sy = Math.max(-14, Math.min(14, shake.sy + dy * 0.2));
+  shake.sr = Math.max(-6, Math.min(6, shake.sr + dx * 0.05));
+}
+function shakeLoop() {
+  const print = $('.lb-print');
+  shake.dev += (shake.target - shake.dev) * 0.08;
+  if (shake.target >= 1 && shake.dev > 0.995) {
+    shake.dev = 1;
+    if (!developed.has(lbIndex)) { developed.add(lbIndex); $('#lbHint').classList.add('done'); }
+  }
+  shake.sx *= 0.82; shake.sy *= 0.82; shake.sr *= 0.82;
+  print.style.setProperty('--dev', shake.dev.toFixed(3));
+  print.style.setProperty('--sx', shake.sx.toFixed(1) + 'px');
+  print.style.setProperty('--sy', shake.sy.toFixed(1) + 'px');
+  print.style.setProperty('--sr', shake.sr.toFixed(2) + 'deg');
+  $('#lbProgress').style.width = (shake.target * 100).toFixed(0) + '%';
+  shake.raf = lbOpen() ? requestAnimationFrame(shakeLoop) : 0;
+}
+function askMotion() {
+  // iOS only allows motion sensors after a tap, so ask on the tap that opens the print
+  if (motionAsked) return; motionAsked = true;
+  const D = window.DeviceMotionEvent;
+  if (D && typeof D.requestPermission === 'function') D.requestPermission().catch(() => {});
+}
+function onMotion(e) {
+  if (!lbOpen()) return;
+  const a = e.acceleration && e.acceleration.x != null ? e.acceleration : null;
+  let mag, ax = 0, ay = 0;
+  if (a) { ax = a.x || 0; ay = a.y || 0; mag = Math.hypot(ax, ay, a.z || 0); }
+  else if (e.accelerationIncludingGravity) {
+    const g = e.accelerationIncludingGravity, p = onMotion.prev || g;
+    ax = (g.x || 0) - (p.x || 0); ay = (g.y || 0) - (p.y || 0);
+    mag = Math.hypot(ax, ay, (g.z || 0) - (p.z || 0)); onMotion.prev = { x: g.x, y: g.y, z: g.z };
+  } else return;
+  if (mag > 6) addShake((mag - 6) * 0.0009, ax * 2, -ay * 2);
+}
+
 function openLightbox(i) {
   lbReturn = document.activeElement;
+  askMotion();
   $('#lightbox').hidden = false;
   document.body.style.overflow = 'hidden';
   showPhoto(i);
   $('.lb-close').focus();
+  if (!shake.raf) shake.raf = requestAnimationFrame(shakeLoop);
 }
 function showPhoto(i) {
   lbIndex = (i + PHOTOS.length) % PHOTOS.length;
   const p = PHOTOS[lbIndex];
   const print = $('.lb-print');
+  if (reduceMotion) developed.add(lbIndex);
+  const done = developed.has(lbIndex);
+  shake.dev = shake.target = done ? 1 : 0;
+  print.style.setProperty('--dev', shake.dev);
+  $('#lbHint').classList.toggle('done', done);
+  $('#lbHintText').textContent = coarse ? UI[lang].shakePhone : UI[lang].shakeMouse;
   print.classList.toggle('wide', p.shape === 'wide');
   print.style.animation = 'none'; void print.offsetWidth; print.style.animation = '';
   $('#lbImg').src = `assets/photos/${p.src}.jpg`;
@@ -232,13 +291,34 @@ function initLightbox() {
   $('.lb-close').addEventListener('click', closeLightbox);
   $('.lb-prev').addEventListener('click', () => showPhoto(lbIndex - 1));
   $('.lb-next').addEventListener('click', () => showPhoto(lbIndex + 1));
-  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+  lb.addEventListener('click', e => { if (e.target === lb && !shake.moved) closeLightbox(); shake.moved = false; });
+
+  // shaking with a mouse or a finger: fast movement plus quick changes of direction
+  lb.addEventListener('pointermove', e => {
+    const now = performance.now();
+    if (shake.lastX !== null) {
+      const dx = e.clientX - shake.lastX, dy = e.clientY - shake.lastY;
+      const d = Math.hypot(dx, dy), dt = Math.max(1, now - shake.lastT);
+      if (d / dt > 0.5) {
+        let amount = Math.min(d, 90) * 0.0006;
+        const dir = Math.sign(dx);
+        if (dir && dir !== shake.lastDir && Math.abs(dx) > 3) { amount += 0.05; shake.lastDir = dir; }
+        addShake(amount, dx, dy);
+        if (d > 6 && e.buttons) shake.moved = true;   // a finger shake shouldn't count as a tap to close
+      }
+    }
+    shake.lastX = e.clientX; shake.lastY = e.clientY; shake.lastT = now;
+  });
+  lb.addEventListener('pointerleave', () => { shake.lastX = null; });
+  window.addEventListener('devicemotion', onMotion);
+
+  // swipe to the next print, but only once this one has developed (before that, a swipe is a shake)
   let sx = null;
   lb.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
   lb.addEventListener('touchend', e => {
     if (sx === null) return;
     const d = e.changedTouches[0].clientX - sx;
-    if (Math.abs(d) > 50) showPhoto(lbIndex + (d < 0 ? 1 : -1));
+    if (Math.abs(d) > 50 && developed.has(lbIndex)) showPhoto(lbIndex + (d < 0 ? 1 : -1));
     sx = null;
   });
 }
@@ -282,6 +362,7 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeLightbox();
     if (e.key === 'ArrowLeft') showPhoto(lbIndex - 1);
     if (e.key === 'ArrowRight') showPhoto(lbIndex + 1);
+    if (e.key === 's' || e.key === 'S') addShake(0.2, (Math.random() - .5) * 60, 0);   // keyboard shake
   } else if (!$('#postModal').hidden && e.key === 'Escape') {
     closePost();
   }
@@ -382,9 +463,100 @@ function initLanyard() {
   requestAnimationFrame(tick);
 }
 
+/* ---------- EASTER EGG: the breakdown of a 9 to 5 workaholic ----------
+   footer 🩵 → click → 🎹 → click → the site goes dark and becomes the music project.
+   Nothing is saved: reloading the page brings the normal site back. */
+const BD_TITLE = 'The Breakdown of a 9\u00a0to\u00a05 Workaholic';   // keep "9 to 5" on one line
+const HOURS = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+let audio = null;
+function notes(freqs, gap, dur = 1.6, vol = 0.07) {
+  try {
+    audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+    const t0 = audio.currentTime + 0.02;
+    freqs.forEach((f, i) => {
+      const t = t0 + i * gap;
+      const g = audio.createGain(); g.connect(audio.destination);
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(vol, t + 0.008);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      [[1, 'triangle'], [2, 'sine'], [3, 'sine']].forEach(([h, type], k) => {   // a soft, piano-ish tone
+        const o = audio.createOscillator(); o.type = type; o.frequency.value = f * h;
+        const hg = audio.createGain(); hg.gain.value = [1, .35, .12][k];
+        o.connect(hg).connect(g); o.start(t); o.stop(t + dur + .05);
+      });
+    });
+  } catch (_) { /* no sound, no problem */ }
+}
+
+function buildTracks() {
+  $('#tracks').innerHTML = HOURS.map((h, i) => {
+    const r = (rand(i, 7) * 8 - 4).toFixed(2);
+    const sx = Math.round(rand(i, 8) * 100) + '%', sy = Math.round(rand(i, 9) * 100) + '%';
+    const bx = Math.round(20 + rand(i, 10) * 60) + '%', by = Math.round(20 + rand(i, 11) * 60) + '%';
+    return `
+      <div class="track" style="--r:${r}deg;--sx:${sx};--sy:${sy};--bx:${bx};--by:${by};--d:${(rand(i, 12) * 4).toFixed(2)}s">
+        <figure class="instax mini" aria-label="${h}">
+          <div class="instax-img"><span class="ember" aria-hidden="true"></span></div>
+          <span class="track-time">${h}</span>
+        </figure>
+      </div>`;
+  }).join('');
+}
+function buildEq() {
+  $('.eq').innerHTML = Array.from({ length: 24 }, (_, i) => `<i style="--d:${(-rand(i, 13) * 1.1).toFixed(2)}s"></i>`).join('');
+}
+function typeTitle() {
+  const el = $('#bdType');
+  if (reduceMotion) { el.textContent = BD_TITLE; return; }
+  let i = 0; el.textContent = '';
+  (function next() {
+    el.textContent = BD_TITLE.slice(0, ++i);
+    if (i < BD_TITLE.length) setTimeout(next, BD_TITLE[i - 1] === ' ' ? 140 : 55 + Math.random() * 70);
+  })();
+}
+function enterBreakdown() {
+  if (!document.querySelector('link[data-bd-fonts]')) {
+    const l = document.createElement('link');
+    l.rel = 'stylesheet'; l.dataset.bdFonts = '';
+    l.href = 'https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Special+Elite&display=swap';
+    document.head.appendChild(l);
+  }
+  notes([440, 349.23, 261.63, 220, 164.81], 0.16, 2.6, 0.06);   // A–F–C–A–E, falling
+  const bo = $('#blackout');
+  bo.classList.remove('off'); bo.style.opacity = '';
+  if (!reduceMotion) bo.classList.add('on');
+  setTimeout(() => {
+    document.body.classList.add('bd');
+    buildTracks(); buildEq();
+    window.scrollTo(0, 0);
+    typeTitle();
+    bo.classList.remove('on'); bo.style.opacity = reduceMotion ? '0' : '1';
+    requestAnimationFrame(() => requestAnimationFrame(() => { bo.classList.add('off'); bo.style.opacity = '0'; }));
+  }, reduceMotion ? 0 : 950);
+}
+function initEgg() {
+  const egg = $('#egg');
+  let stage = 0;
+  egg.addEventListener('click', () => {
+    if (stage === 0) {
+      stage = 1;
+      egg.textContent = '🎹'; egg.setAttribute('aria-label', '🎹');
+      egg.classList.remove('pop'); void egg.offsetWidth; egg.classList.add('pop');
+      notes([523.25, 659.25, 783.99, 1046.5], 0.09);            // C–E–G–C
+    } else if (stage === 1) {
+      stage = 2;
+      enterBreakdown();
+    } else {
+      const am = [220, 261.63, 329.63, 392, 440];
+      notes([am[Math.floor(Math.random() * am.length)]], 0, 2.2, 0.06);
+    }
+  });
+}
+
 /* ---------- INIT ---------- */
 buildGallery();
 initLightbox();
 initPostModal();
 initLang();
+initEgg();
 initLanyard();

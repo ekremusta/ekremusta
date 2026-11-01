@@ -38,7 +38,7 @@
       </div>
 
       <div class="lanyard" id="lanyard">
-        <div class="strap"><span>EKREM · EKREM · EKREM · EKREM · EKREM · </span></div>
+        <div class="strap"><span class="strap-day">EKREM · EKREM · EKREM · EKREM · EKREM · </span><span class="bd-only">9 TO 5 · 9 TO 5 · 9 TO 5 · 9 TO 5 · </span></div>
         <svg class="clip" viewBox="0 0 40 56" aria-hidden="true">
           <rect x="8" y="0" width="24" height="14" rx="3" fill="#c9ccd1" stroke="#8a8f96" />
           <path d="M20 14 v8 M12 22 h16 a6 6 0 0 1 0 12 h-4 v10 a4 4 0 0 1 -8 0 v-10 h-4 a6 6 0 0 1 0 -12z" fill="none" stroke="#9aa0a7" stroke-width="3" stroke-linejoin="round" />
@@ -47,11 +47,14 @@
           <span class="punch" aria-hidden="true"></span>
           <div class="instax-img">
             <img src="assets/photos/hero-instax.jpg" draggable="false" alt="Ekrem, aynada fotoğraf makinesiyle kendini çekerken" data-i18n-alt="hero.alt" width="700" height="933" />
+            <div class="night bd-only" aria-hidden="true"><div class="moon"></div></div>
           </div>
         </figure>
       </div>
 
-      <h1 class="hero-title"><span data-i18n="hero.hi">Merhaba, ben</span> <span class="marker-ring">Ekrem</span></h1>
+      <h1 class="hero-title day-title"><span data-i18n="hero.hi">Merhaba, ben</span> <span class="marker-ring">Ekrem</span></h1>
+      <h1 class="bd-title bd-only"><span class="sr-only">The Breakdown of a 9 to 5 Workaholic</span><span id="bdType" aria-hidden="true"></span><span class="caret" aria-hidden="true">_</span></h1>
+      <div class="eq bd-only" aria-hidden="true"></div>
       <p class="hero-sub" data-i18n="hero.sub">Boğaziçi'nde İngilizce Öğretmenliği okuyorum. Kelimeler, kültürler ve fikirler arasında köprü kuruyorum, bir yandan da gördüğüm her şeyin fotoğrafını çekiyorum.</p>
       <a href="#photos" class="scroll-hint hand"><span data-i18n="hero.scroll">kareleri gör</span> <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 6 C 20 14, 26 22, 22 34 M14 28 l8 7 l6 -9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
     </section>
@@ -60,10 +63,11 @@
     <section class="section" id="photos">
       <div class="section-head">
         <p class="tape-label" data-i18n="photos.tag">photo dump</p>
-        <h2 class="title" data-i18n="photos.title">Hayatımdan kareler</h2>
+        <h2 class="title"><span data-i18n="photos.title">Hayatımdan kareler</span><span class="bd-only">Tracks</span></h2>
         <p class="hand note-right" data-i18n="photos.hint">↙ birine tıkla, büyüsün</p>
       </div>
       <div class="gallery" id="gallery"></div>
+      <div class="tracks bd-only" id="tracks"></div>
     </section>
 
     <!-- ============ ABOUT ============ -->
@@ -189,7 +193,8 @@
   </main>
 
   <footer class="footer">
-    <p class="hand" data-i18n="foot">© 2026 Ekrem Usta · 🩵 ile yapıldı</p>
+    <p class="hand foot-line"><span data-i18n="foot.pre">© 2026 Ekrem Usta · </span><button type="button" class="egg" id="egg" aria-label="🩵">🩵</button><span data-i18n="foot.post"> ile yapıldı</span></p>
+    <p class="bd-only bd-reload">↻ reload to clock out</p>
   </footer>
 
   <!-- ============ LIGHTBOX ============ -->
@@ -197,7 +202,11 @@
     <button class="lb-btn lb-close" type="button" aria-label="Kapat">✕</button>
     <button class="lb-btn lb-prev" type="button" aria-label="Önceki">←</button>
     <figure class="instax lb-print">
-      <div class="instax-img"><img id="lbImg" src="" alt="" /></div>
+      <div class="instax-img"><img id="lbImg" src="" alt="" draggable="false" /><span class="lb-film" aria-hidden="true"></span></div>
+      <div class="lb-hint" id="lbHint" aria-live="polite">
+        <p class="hand"><span class="shake-ico" aria-hidden="true">📸</span> <span id="lbHintText"></span></p>
+        <div class="lb-progress" aria-hidden="true"><span id="lbProgress"></span></div>
+      </div>
     </figure>
     <button class="lb-btn lb-next" type="button" aria-label="Sonraki">→</button>
     <p class="lb-count mono" id="lbCount"></p>
@@ -213,6 +222,7 @@
     </article>
   </div>
 
+  <div class="blackout" id="blackout" aria-hidden="true"></div>
   <script src="app.js"></script>
 </body>
 </html>
