@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Caveat+Brush&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=1f1548e7" />
 </head>
 <body>
   <!-- ============ NAV ============ -->
@@ -38,7 +38,7 @@
       </div>
 
       <div class="lanyard" id="lanyard">
-        <div class="strap"><span class="strap-day">EKREM · EKREM · EKREM · EKREM · EKREM · </span><span class="bd-only">9 TO 5 · 9 TO 5 · 9 TO 5 · 9 TO 5 · </span></div>
+        <div class="strap"><span class="strap-day">EKREM · EKREM · EKREM · EKREM · EKREM · </span><span class="bd-only" hidden>9 TO 5 · 9 TO 5 · 9 TO 5 · 9 TO 5 · </span></div>
         <svg class="clip" viewBox="0 0 40 56" aria-hidden="true">
           <rect x="8" y="0" width="24" height="14" rx="3" fill="#c9ccd1" stroke="#8a8f96" />
           <path d="M20 14 v8 M12 22 h16 a6 6 0 0 1 0 12 h-4 v10 a4 4 0 0 1 -8 0 v-10 h-4 a6 6 0 0 1 0 -12z" fill="none" stroke="#9aa0a7" stroke-width="3" stroke-linejoin="round" />
@@ -47,14 +47,14 @@
           <span class="punch" aria-hidden="true"></span>
           <div class="instax-img">
             <img src="assets/photos/hero-instax.jpg" draggable="false" alt="Ekrem, aynada fotoğraf makinesiyle kendini çekerken" data-i18n-alt="hero.alt" width="700" height="933" />
-            <div class="night bd-only" aria-hidden="true"><div class="moon"></div></div>
+            <div class="night bd-only" aria-hidden="true" hidden><div class="moon"></div></div>
           </div>
         </figure>
       </div>
 
       <h1 class="hero-title day-title"><span data-i18n="hero.hi">Merhaba, ben</span> <span class="marker-ring">Ekrem</span></h1>
-      <h1 class="bd-title bd-only"><span class="sr-only">The Breakdown of a 9 to 5 Workaholic</span><span id="bdType" aria-hidden="true"></span><span class="caret" aria-hidden="true">_</span></h1>
-      <div class="eq bd-only" aria-hidden="true"></div>
+      <h1 class="bd-title bd-only" hidden><span class="sr-only">The Breakdown of a 9 to 5 Workaholic</span><span id="bdType" aria-hidden="true"></span><span class="caret" aria-hidden="true">_</span></h1>
+      <div class="eq bd-only" aria-hidden="true" hidden></div>
       <p class="hero-sub" data-i18n="hero.sub">Boğaziçi'nde İngilizce Öğretmenliği okuyorum. Kelimeler, kültürler ve fikirler arasında köprü kuruyorum, bir yandan da gördüğüm her şeyin fotoğrafını çekiyorum.</p>
       <a href="#photos" class="scroll-hint hand"><span data-i18n="hero.scroll">kareleri gör</span> <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 6 C 20 14, 26 22, 22 34 M14 28 l8 7 l6 -9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
     </section>
@@ -63,11 +63,11 @@
     <section class="section" id="photos">
       <div class="section-head">
         <p class="tape-label" data-i18n="photos.tag">photo dump</p>
-        <h2 class="title"><span data-i18n="photos.title">Hayatımdan kareler</span><span class="bd-only">Tracks</span></h2>
+        <h2 class="title"><span data-i18n="photos.title">Hayatımdan kareler</span><span class="bd-only" hidden>Tracks</span></h2>
         <p class="hand note-right" data-i18n="photos.hint">↙ birine tıkla, büyüsün</p>
       </div>
       <div class="gallery" id="gallery"></div>
-      <div class="tracks bd-only" id="tracks"></div>
+      <div class="tracks bd-only" id="tracks" hidden></div>
     </section>
 
     <!-- ============ ABOUT ============ -->
@@ -194,7 +194,7 @@
 
   <footer class="footer">
     <p class="hand foot-line"><span data-i18n="foot.pre">© 2026 Ekrem Usta · </span><button type="button" class="egg" id="egg" aria-label="🩵">🩵</button><span data-i18n="foot.post"> ile yapıldı</span></p>
-    <p class="bd-only bd-reload">↻ reload to clock out</p>
+    <p class="bd-only bd-reload" hidden>↻ reload to clock out</p>
   </footer>
 
   <!-- ============ LIGHTBOX ============ -->
@@ -223,6 +223,6 @@
   </div>
 
   <div class="blackout" id="blackout" aria-hidden="true"></div>
-  <script src="app.js"></script>
+  <script src="app.js?v=36bddf2b"></script>
 </body>
 </html>

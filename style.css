@@ -415,7 +415,7 @@ body.no-select, body.no-select * { user-select: none !important; -webkit-user-se
 .lb-close { top: 20px; right: 20px; }
 .lb-prev { left: 24px; top: 50%; margin-top: -24px; }
 .lb-next { right: 24px; top: 50%; margin-top: -24px; }
-.lb-count { position: absolute; bottom: 16px; left: 0; right: 0; text-align: center; color: var(--print); font-size: 13px; margin: 0; }
+.lb-count { pointer-events: none; position: absolute; bottom: 16px; left: 0; right: 0; text-align: center; color: var(--print); font-size: 13px; margin: 0; }
 
 .modal { overflow-y: auto; align-items: flex-start; }
 .modal-paper { max-width: 720px; width: 100%; margin: 40px auto; animation: drop .4s ease; }
@@ -495,9 +495,14 @@ body.no-select, body.no-select * { user-select: none !important; -webkit-user-se
 
 /* ============ EASTER EGG BUTTON ============ */
 .egg {
-  border: 0; background: none; padding: 0 2px; font-size: inherit; line-height: 1;
+  -webkit-appearance: none; appearance: none; /* no native button bubble (iOS Safari) */
+  border: 0; border-radius: 0; background: none; box-shadow: none; margin: 0; padding: 0 2px;
+  font: inherit; color: inherit; line-height: 1; vertical-align: baseline;
   display: inline-block; cursor: pointer; transition: transform .2s;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
+.egg:focus { outline: none; }
+.egg:focus-visible { outline: 2px dashed var(--blue-ink); outline-offset: 3px; }
 .egg:hover { transform: scale(1.25) rotate(-8deg); }
 .egg.pop { animation: pop .45s cubic-bezier(.2,1.6,.4,1); }
 @keyframes pop { 0% { transform: scale(.3) rotate(-30deg); } 100% { transform: scale(1); } }
@@ -510,7 +515,7 @@ body.no-select, body.no-select * { user-select: none !important; -webkit-user-se
 .blackout.off { opacity: 0; transition: opacity 1.4s ease; }
 
 /* ============ BREAKDOWN MODE ============ */
-body:not(.bd) .bd-only { display: none !important; }
+body:not(.bd) .bd-only, [hidden] { display: none !important; }
 body.bd {
   --paper: #0e0d0c; --paper-2: #1b1a18; --print: #d9d3c4; --ink: #ece6d8; --muted: #8a8378; --line: #2c2a27;
   --blue-ink: #c9c2b2; --tape: rgba(120,110,95,.6);

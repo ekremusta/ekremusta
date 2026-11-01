@@ -312,13 +312,22 @@ function initLightbox() {
   lb.addEventListener('pointerleave', () => { shake.lastX = null; });
   window.addEventListener('devicemotion', onMotion);
 
-  // swipe to the next print, but only once this one has developed (before that, a swipe is a shake)
-  let sx = null;
-  lb.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+  // swipe to the next print, but only if this one was already developed when the finger went down
+  // and the gesture was one clean stroke (a back-and-forth finger shake must never flip the photo)
+  let sx = null, swipeOk = false, turns = 0, lastTx = 0, lastTdir = 0;
+  lb.addEventListener('touchstart', e => {
+    sx = lastTx = e.touches[0].clientX; turns = 0; lastTdir = 0;
+    swipeOk = developed.has(lbIndex);
+  }, { passive: true });
+  lb.addEventListener('touchmove', e => {
+    const x = e.touches[0].clientX, dir = Math.sign(x - lastTx);
+    if (dir && Math.abs(x - lastTx) > 3) { if (lastTdir && dir !== lastTdir) turns++; lastTdir = dir; }
+    lastTx = x;
+  }, { passive: true });
   lb.addEventListener('touchend', e => {
     if (sx === null) return;
     const d = e.changedTouches[0].clientX - sx;
-    if (Math.abs(d) > 50 && developed.has(lbIndex)) showPhoto(lbIndex + (d < 0 ? 1 : -1));
+    if (swipeOk && turns === 0 && Math.abs(d) > 50) showPhoto(lbIndex + (d < 0 ? 1 : -1));
     sx = null;
   });
 }
@@ -527,6 +536,7 @@ function enterBreakdown() {
   if (!reduceMotion) bo.classList.add('on');
   setTimeout(() => {
     document.body.classList.add('bd');
+    $$('.bd-only').forEach(el => el.removeAttribute('hidden'));
     buildTracks(); buildEq();
     window.scrollTo(0, 0);
     typeTitle();
