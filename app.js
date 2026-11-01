@@ -4,23 +4,22 @@
 
 /* ---------- PHOTOS ----------
    To add a photo: drop it in assets/photos/ and add a line here.
+   tr / en are not shown on the page; they describe the photo for screen readers.
    shape: "mini" (portrait) or "wide" (landscape)
    tape:  "top" | "corner" | "corner-r" | ""   tint: "" | "blue" | "pink"
-   stamp: optional orange date stamp text on the photo
 */
 const PHOTOS = [
-  { src: 'eiffel',        shape: 'mini', tr: 'paris, klasik',            en: 'paris, obviously', stamp: "'24", tape: 'top' },
+  { src: 'eiffel',        shape: 'mini', tr: 'paris, klasik',            en: 'paris, obviously', tape: 'top' },
   { src: 'sakura-up',     shape: 'mini', tr: 'yukarı bak',               en: 'look up', tape: 'corner', tint: 'pink' },
   { src: 'night-street',  shape: 'mini', tr: 'gece, neon',               en: 'night, neon' },
   { src: 'seagull',       shape: 'mini', tr: 'poz veren martı',          en: 'a seagull who knew', tape: 'top', tint: 'blue' },
   { src: 'campus',        shape: 'wide', tr: 'kampüs, yaz',              en: 'campus, summer' },
   { src: 'river-lean',    shape: 'mini', tr: 'düşmedim, merak etme',     en: "didn't fall, don't worry", tape: 'corner-r' },
   { src: 'lights',        shape: 'mini', tr: 'ışıklar suda',             en: 'lights on water' },
-  { src: 'tulips',        shape: 'mini', tr: 'laleler',                  en: 'tulips', tape: 'top', tint: 'pink' },
   { src: 'cafe-mirror',   shape: 'mini', tr: 'kahve + kamera',           en: 'coffee + camera' },
   { src: 'big-ben',       shape: 'wide', tr: 'big ben, akşamüstü',       en: 'big ben, late afternoon', tape: 'corner' },
   { src: 'red-gate',      shape: 'mini', tr: 'kırmızı tavanlar',         en: 'red ceilings' },
-  { src: 'sunset-canal',  shape: 'mini', tr: 'altın saat',               en: 'golden hour', stamp: "'25", tape: 'top' },
+  { src: 'sunset-canal',  shape: 'mini', tr: 'altın saat',               en: 'golden hour', tape: 'top' },
   { src: 'note',          shape: 'mini', tr: 'saklanacak şeyler',        en: 'things worth keeping' },
   { src: 'wings',         shape: 'mini', tr: 'bugün kanatlarım var',     en: 'wings today', tape: 'corner-r', tint: 'blue' },
   { src: 'tracks',        shape: 'mini', tr: 'sıradaki tren',            en: 'next train' },
@@ -92,15 +91,13 @@ const POSTS = [
    Turkish lives in index.html itself; these replace it when EN is picked. */
 const EN = {
   'nav.photos': 'Photos', 'nav.about': 'About', 'nav.notes': 'Notes', 'nav.contact': 'Contact',
-  'hero.marquee': 'teacher-to-be ✦ wanderer ✦ photo nerd ✦ teacher-to-be ✦ wanderer ✦ photo nerd ✦',
   'hero.alt': 'Ekrem taking a mirror photo with his camera',
-  'hero.card': 'hi! have a nice day ☺',
   'hero.hi': "Hi, I'm",
   'hero.sub': "I study English Language Teaching at Boğaziçi. I build bridges between words, cultures and ideas, and take pictures of pretty much everything I see.",
   'hero.scroll': 'see the frames',
   'photos.tag': 'photo dump', 'photos.title': 'Bits of my life', 'photos.hint': '↙ tap one to make it bigger',
   'about.tag': 'me, briefly', 'about.title': 'About me',
-  'about.kidAlt': 'Young Ekrem holding a big Nikon camera', 'about.kid': 'my first camera', 'about.kidNote': 'where it all started ↑',
+  'about.kidAlt': 'Young Ekrem holding a big Nikon camera', 'about.kidNote': 'where it all started ↑',
   'about.p1': "Hi! I'm Ekrem. I study English Language Teaching at Boğaziçi University, and I spent fall 2025 as an exchange student at the University of Alberta. I love building bridges between words, cultures and ideas; I speak Turkish, English and a little German.",
   'about.p2': "I rarely go anywhere without a camera. Analog or digital, I bring a few frames back from everywhere. This page is part those frames, part me.",
   'about.likes': 'things I love:', 'about.likesList': 'learning languages · travel · cinema · analog photography · social responsibility projects',
@@ -167,13 +164,11 @@ function buildGallery() {
     const r = (rand(i, 1) * 7 - 3.5).toFixed(2);
     const dx = Math.round(rand(i, 2) * 14 - 7);
     const tape = p.tape ? `<span class="tape ${p.tape === 'top' ? 'tape-top' : 't-' + p.tape} ${p.tint ? 't-' + p.tint : ''}" aria-hidden="true"></span>` : '';
-    const stamp = p.stamp ? `<span class="datestamp">${p.stamp}</span>` : '';
     return `
       <button class="shot develop" type="button" data-i="${i}" style="--r:${r}deg;--dx:${dx}px">
         <figure class="instax ${p.shape}">
           ${tape}
-          <div class="instax-img"><img src="assets/photos/${p.src}.jpg" alt="" loading="lazy" decoding="async" />${stamp}</div>
-          <figcaption class="hand"></figcaption>
+          <div class="instax-img"><img src="assets/photos/${p.src}.jpg" alt="" loading="lazy" decoding="async" /></div>
         </figure>
       </button>`;
   }).join('');
@@ -192,7 +187,7 @@ function buildGallery() {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
       const img = $('img', e.target);
-      const go = () => setTimeout(() => e.target.classList.add('is-in'), 150);
+      const go = () => setTimeout(() => e.target.classList.add('is-in'), 300);
       img.complete ? go() : img.addEventListener('load', go, { once: true });
       io.unobserve(e.target);
     });
@@ -203,7 +198,6 @@ function buildGallery() {
 function updateGalleryText() {
   $$('#gallery .shot').forEach(b => {
     const p = PHOTOS[+b.dataset.i];
-    $('figcaption', b).textContent = p[lang];
     $('img', b).alt = p[lang];
     b.setAttribute('aria-label', `${UI[lang].photo}: ${p[lang]}`);
   });
@@ -226,7 +220,6 @@ function showPhoto(i) {
   print.style.animation = 'none'; void print.offsetWidth; print.style.animation = '';
   $('#lbImg').src = `assets/photos/${p.src}.jpg`;
   $('#lbImg').alt = p[lang];
-  $('#lbCap').textContent = p[lang];
   $('#lbCount').textContent = `${String(lbIndex + 1).padStart(2, '0')} / ${String(PHOTOS.length).padStart(2, '0')}`;
 }
 function closeLightbox() {
@@ -342,12 +335,18 @@ function initLanyard() {
   };
 
   el.addEventListener('pointerdown', e => {
-    dragging = true; el.classList.add('dragging');
+    e.preventDefault();
+    window.getSelection && window.getSelection().removeAllRanges();
+    dragging = true; el.classList.add('dragging'); document.body.classList.add('no-select');
     el.setPointerCapture(e.pointerId);
     pointerAngle = angleFromPointer(e);
   });
+  // text selection is started by mousedown (not pointerdown), so block it there and while dragging
+  el.addEventListener('mousedown', e => e.preventDefault());
+  el.addEventListener('dragstart', e => e.preventDefault());
+  document.addEventListener('selectstart', e => { if (dragging) e.preventDefault(); });
   el.addEventListener('pointermove', e => { if (dragging) pointerAngle = angleFromPointer(e); });
-  const end = () => { dragging = false; el.classList.remove('dragging'); };
+  const end = () => { dragging = false; el.classList.remove('dragging'); document.body.classList.remove('no-select'); };
   el.addEventListener('pointerup', end);
   el.addEventListener('pointercancel', end);
 
@@ -358,7 +357,7 @@ function initLanyard() {
     if (lastX !== null && window.scrollY < window.innerHeight) {
       const r = $('.instax-hero').getBoundingClientRect();
       if (e.clientY > r.top - 40 && e.clientY < r.bottom + 40 && e.clientX > r.left - 60 && e.clientX < r.right + 60) {
-        vel -= (e.clientX - lastX) * 0.9;
+        vel -= Math.max(-12, Math.min(12, (e.clientX - lastX) * 0.3));
       }
     }
     lastX = e.clientX;

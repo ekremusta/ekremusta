@@ -45,6 +45,7 @@ html, body { overflow-x: clip; }
 img { display: block; max-width: 100%; }
 a { color: inherit; }
 button { font: inherit; color: inherit; cursor: pointer; }
+body.no-select, body.no-select * { user-select: none !important; -webkit-user-select: none !important; }
 :focus-visible { outline: 2px dashed var(--blue-ink); outline-offset: 4px; }
 
 .hand { font-family: var(--f-hand); }
@@ -120,7 +121,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .instax {
   margin: 0;
   background: var(--print);
-  padding: 7% 7% 0;
+  padding: 7% 7% 26%;
   border-radius: 3px;
   box-shadow: var(--shadow-print);
   position: relative;
@@ -131,13 +132,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .instax-img { position: relative; overflow: hidden; background: #2a2724; }
 .instax-img img { width: 100%; height: 100%; object-fit: cover; }
-.instax figcaption {
-  font-size: 22px; line-height: 1.1; text-align: center;
-  padding: 12px 6px 16px; min-height: 58px;
-  display: flex; align-items: center; justify-content: center;
-  color: #2c2a27;
-}
-.instax.wide { padding: 4.5% 4.5% 0; }
+.instax.wide { padding: 4.5% 4.5% 13%; }
 .instax.mini .instax-img { aspect-ratio: 3 / 4; }
 .instax.wide .instax-img { aspect-ratio: 4 / 3; }
 .instax-square .instax-img { aspect-ratio: 1; }
@@ -154,21 +149,17 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .tape.t-corner { top: -8px; left: -18px; transform: rotate(-38deg); width: 74px; }
 .tape.t-corner-r { top: -8px; right: -18px; left: auto; transform: rotate(36deg); width: 74px; }
 
-.datestamp {
-  position: absolute; right: 8px; bottom: 6px;
-  font-family: var(--f-mono); font-weight: 700; font-size: 13px; letter-spacing: .08em;
-  color: var(--date-orange); text-shadow: 0 0 6px rgba(255,120,30,.75); opacity: .9;
-}
 
 /* ============ HERO ============ */
 .hero {
   position: relative; min-height: 100vh; min-height: 100svh;
   display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
   padding: 0 24px 64px; text-align: center; overflow: hidden;
+  user-select: none; -webkit-user-select: none; /* dragging the lanyard should never select text */
 }
 .hero-marquee {
   position: absolute; top: 30%; left: 0; width: 100%;
-  overflow: hidden; pointer-events: none; user-select: none;
+  overflow: hidden; pointer-events: none; user-select: none; -webkit-user-select: none;
 }
 .marquee-track {
   display: inline-block; white-space: nowrap;
@@ -185,6 +176,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   display: flex; flex-direction: column; align-items: center;
   transform-origin: 50% 0;
   z-index: 2; touch-action: none; cursor: grab;
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
 }
 .lanyard.dragging { cursor: grabbing; }
 .strap {
@@ -207,7 +199,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border-radius: 6px; background: var(--paper-2); box-shadow: inset 0 1px 2px rgba(0,0,0,.25);
 }
 .instax-hero { padding-top: 22px; }
-.instax-hero figcaption { font-size: 24px; }
 
 .hero-title {
   position: relative; z-index: 3;
@@ -238,7 +229,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
   position: relative;
 }
 .shot .instax { transition: box-shadow .35s; }
-.shot:hover, .shot:focus-visible {
+.shot:hover, .shotbody.no-select, body.no-select * { user-select: none !important; -webkit-user-select: none !important; }
+:focus-visible {
   transform: translate(var(--dx, 0), -6px) rotate(0deg) scale(1.04);
   z-index: 5; outline: none;
 }
@@ -246,7 +238,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .shot:focus-visible .instax { outline: 2px dashed var(--blue-ink); outline-offset: 6px; }
 
 /* the "developing" effect */
-.develop img { filter: brightness(1.9) contrast(.45) saturate(0) sepia(.35) blur(3px); transition: filter 2.6s ease-out; }
+.develop img { filter: brightness(1.9) contrast(.45) saturate(0) sepia(.35) blur(3px); transition: filter 5.5s cubic-bezier(.3,.1,.3,1); }
 .develop.is-in img { filter: none; }
 
 /* ============ ABOUT ============ */
@@ -409,8 +401,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .lb-print { width: auto; max-width: min(820px, 88vw); }
 .lb-print .instax-img { aspect-ratio: auto !important; background: none; }
 .lb-print img { width: auto; height: auto; max-width: 100%; max-height: 72vh; margin: 0 auto; }
-.lb-print figcaption { min-width: min(300px, 70vw); }
-.lb-print figcaption { font-size: 30px; }
+.lb-print { padding: 22px 22px 70px; }
 @keyframes drop { from { transform: translateY(30px) rotate(-6deg); opacity: 0; } }
 .lb-btn {
   position: absolute; width: 48px; height: 48px; border-radius: 50%; border: 0;
@@ -447,7 +438,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .section { padding: 90px 16px 30px; }
   .gallery { gap: 16px; }
   .shot { margin-bottom: 24px; }
-  .instax figcaption { font-size: 18px; min-height: 44px; padding: 8px 4px 10px; }
   .instax-hero { width: 190px; }
   .lanyard { width: 210px; }
   .stickies { grid-template-columns: 1fr; }
