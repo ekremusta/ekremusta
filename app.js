@@ -98,7 +98,7 @@ const EN = {
   'photos.tag': 'photo dump', 'photos.title': 'Bits of my life', 'photos.hint': '↙ tap one to make it bigger',
   'about.tag': 'me, briefly', 'about.title': 'About me',
   'about.kidAlt': 'Young Ekrem holding a big Nikon camera', 'about.kidNote': 'where it all started ↑',
-  'about.p1': "Hi! I'm Ekrem. I study English Language Teaching at Boğaziçi University, and I spent fall 2025 as an exchange student at the University of Alberta. I love building bridges between words, cultures and ideas; I speak Turkish, English and a little Spanish.",
+  'about.p1': "Hi! I'm Ekrem. I study English Language Teaching at Boğaziçi University, and I spent fall 2025 as an exchange student at the University of Alberta. I love building bridges between words, cultures and ideas; I speak Turkish and English, plus a little Spanish and Laz.",
   'about.p2': "I rarely go anywhere without a camera. Analog or digital, I bring a few frames back from everywhere. This page is part those frames, part me.",
   'about.likes': 'things I love:', 'about.likesList': 'learning languages · travel · cinema · analog photography · social responsibility projects',
   'about.cv': 'Download my CV (PDF) →',

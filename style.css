@@ -319,6 +319,7 @@ body.no-select, body.no-select * { user-select: none !important; -webkit-user-se
 .stamp.st-red { color: var(--stamp-red); transform: rotate(-12deg); }
 .stamp.st-blue { color: var(--blue-ink); transform: rotate(8deg); border-radius: 18px; width: 170px; height: 120px; outline-offset: -9px; }
 .stamp.st-green { color: #3f7d5a; transform: rotate(-4deg); }
+.stamp.st-purple { color: #7a4d93; transform: rotate(10deg); border-radius: 50% 50% 50% 50% / 38% 38% 62% 62%; width: 140px; height: 160px; }
 
 /* ============ NOTES ============ */
 .notebook-row { display: grid; grid-template-columns: repeat(2, minmax(0, 460px)); justify-content: center; gap: 56px; }
@@ -451,6 +452,7 @@ body.no-select, body.no-select * { user-select: none !important; -webkit-user-se
   .stamp { width: 120px; height: 120px; }
   .stamp strong { font-size: 20px; }
   .stamp.st-blue { width: 140px; height: 100px; }
+  .stamp.st-purple { width: 112px; height: 130px; }
   .ticket { grid-template-columns: 1fr 110px; }
   .ticket-code { font-size: 34px; }
   .lb-prev, .lb-next { top: auto; bottom: 24px; margin: 0; }
